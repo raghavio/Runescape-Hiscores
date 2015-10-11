@@ -114,7 +114,7 @@ class Skills(models.Model):
             if isinstance(field, LevelField):
                 level = getattr(self, field.name)
                 exp = getattr(self, field.exp_field.name)
-                players = Skills.objects.order_by("-%s" % exp).all()
+                players = Skills.objects.order_by("-%s" % field.exp_field.name).all()
                 rank = [i+1 for i, player in enumerate(players) if player.user_name == self.user_name][0]
                 skill_values.append({
                     'name': field.name.title(),
