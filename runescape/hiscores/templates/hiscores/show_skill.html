@@ -1,0 +1,138 @@
+{% extends 'hiscores/base.html' %}
+{% load humanize %}
+{% load hiscores_tags %}
+
+
+{% block content %}
+<div class="col-md-2">
+	<div class="panel panel-primary">
+		<div class="panel-heading">
+			<h3 class="panel-title align_center">
+				Category
+			</h3>
+		</div>
+		<table class="table table-hover table-striped table-bordered" style="margin-top:0;">
+			<thread>
+				<tr>
+					<th class="align_center">Skill</th>
+				</tr>
+			</thread>
+			<tbody>
+				{% for skill_name in skills_name %}
+					<tr>
+					{% if skill_name|lower == skill %}
+						<td class = "align_center warning">
+					{% else %}
+						<td class = "align_center">
+					{% endif %}
+							<a href="/hiscores/{{ skill_name|lower }}/">
+								<img class="skillIcon" src="/static/hiscores/img/{{ skill_name }}.png"
+									title="{{ skill_name }}"
+									style="float:left;"/>
+									{{ skill_name }}
+								<img class="skillIcon" src="/static/hiscores/img/{{ skill_name }}.png"
+									title="{{ skill_name }}"
+									style="float:right"/>
+							</a>
+						</td>
+					</tr>
+				{% endfor %}
+			</tbody>
+		</table>
+	</div>
+</div>
+<div class="col-md-9 col-md-7">
+	<div class="panel panel-primary">
+	<div class="panel-heading">
+		<h3 class="panel-title">
+			<div class="pull-right" style="margin-top:-2px;">
+					{% if results.has_previous %}
+						<a class="btn btn-success btn-xs" href="?page={{ results.previous_page_number }}">
+					{% else %}
+						<a class="btn btn-success btn-xs disabled">
+					{% endif %}
+							Previous Page
+						</a>
+
+					{% if results.has_next %}
+						<a class="btn btn-success btn-xs" href="?page={{ results.next_page_number }}">
+					{% else %}
+						<a class="btn btn-success btn-xs disabled">
+					{% endif %}
+							Next Page
+						</a>
+			</div>
+			{{ skill }}
+		</h3>
+	</div>
+	<table class="table table-hover table-striped table-bordered" style="margin-top:0;">
+		<thread>
+			<tr>
+				<th class = "skillCol1 align_right">Rank</th>
+				<th class = "skillCol2">Player</th>
+				<th class = "skillCol3 align_right">Level</th>
+				<th class = "skillCol4 align_right">Experience</th>
+			</tr>
+		</thread>
+		<tbody>
+			{% for result in results %}
+				<tr>
+					<td class = "skillCol1 align_right">
+						<a href="/hiscores/player/{{ result.user_name }}/">{{ results|get_rank:forloop.counter0 }}</a>
+					</td>
+					<td class = "skillCol2">
+						<a href="/hiscores/player/{{ result.user_name }}/">{{ result.user_name }}</a>
+					</td>
+					<td class = "skillCol3 align_right">
+						<a href="/hiscores/player/{{ result.user_name }}/">{{ result|displaySkill:skill }}</a>
+					</td>
+					<td class = "skillCol4 align_right">
+						<a href="/hiscores/player/{{ result.user_name }}/">{{ result|displayExp:skill }}</a>
+					</td>
+				</tr>
+			{% endfor %}
+		</tbody>
+	</table>
+</div>
+<div class="text-center">
+	<ul class="pagination">
+		<li {% if not results.has_previous %} class="disabled" {% endif %}>
+			<a {% if results.has_previous %} href="?page={{ results.previous_page_number }}" {% endif %}
+				aria-label="Previous">
+				<span aria-hidden="true">&laquo; Prev</span>
+			</a>
+		</li>
+	</ul>
+	<ul class="pagination">
+		{% if 1 not in page_numbers %}
+			<li>
+				<a href="?page=1">1</a>
+			</li>
+		{% endif %}
+	</ul>
+	<ul class="pagination">
+
+		{% for i in page_numbers %}
+			<li {% if results.number == i %} class="active" {% endif %}>
+				<a href="?page={{i}}">{{i}}</a>
+			</li>
+		{% endfor %}
+	</ul>
+	<ul class="pagination">
+		{% if results.paginator.num_pages not in page_numbers %}
+			<li>
+				<a href="?page={{results.paginator.num_pages}}">{{results.paginator.num_pages}}</a>
+			</li>
+		{% endif %}
+	</ul>
+	<ul class="pagination">
+		<li {% if not results.has_next %} class="disabled" {% endif %}>
+			<a {% if results.has_next %} href="?page={{ results.next_page_number }}" {% endif %}
+				aria-label="Next">
+				<span aria-hidden="true">Next &raquo;</span>
+			</a>
+		</li>
+	</ul>
+</div>
+</div>
+{% endblock content %}

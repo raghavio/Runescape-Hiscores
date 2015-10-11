@@ -1,0 +1,57 @@
+.align_right {
+    text-align: right;
+}
+.align_center {
+    text-align: center;
+}
+.align_left {
+    text-align: left;
+}
+table .skillCol1 {
+    width: 14%
+}
+table .skillCol2 {
+    width: 36%
+}
+table .skillCol3 {
+    width: 24%
+}
+table .skillCol4 {
+    width: 26%
+}
+
+table .playerCol1 {
+    width: 26%
+}
+table .playerCol2 {
+    width: 14%
+}
+table .playerCol3 {
+    width: 36%
+}
+table .playerCol4 {
+    width: 24%
+}
+
+table a {
+    width: 100%;
+    height: 100%;
+    display: block;
+}
+table a:hover {
+    text-decoration: none;
+}
+.skillIcon {
+    max-width: 20px;
+    max-height: 20px;
+}
+h1,h2,h3,h4,h5,h6 {
+    font-family: 'Oswald', sans-serif;
+}
+.panel-title {
+    text-transform: uppercase;
+}
+
+ul.pagination {
+    margin: 10px 0;
+}
