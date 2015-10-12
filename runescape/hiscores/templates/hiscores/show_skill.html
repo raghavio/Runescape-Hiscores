@@ -7,23 +7,23 @@
 <div class="col-md-2">
 	<div class="panel panel-primary">
 		<div class="panel-heading">
-			<h3 class="panel-title align_center">
+			<h3 class="panel-title text-center">
 				Category
 			</h3>
 		</div>
 		<table class="table table-hover table-striped table-bordered" style="margin-top:0;">
 			<thread>
 				<tr>
-					<th class="align_center">Skill</th>
+					<th class="text-center">Skill</th>
 				</tr>
 			</thread>
 			<tbody>
 				{% for skill_name in skills_name %}
 					<tr>
 					{% if skill_name|lower == skill %}
-						<td class = "align_center warning">
+						<td class = "text-center warning">
 					{% else %}
-						<td class = "align_center">
+						<td class = "text-center">
 					{% endif %}
 							<a href="/hiscores/{{ skill_name|lower }}/">
 								<img class="skillIcon" src="/static/hiscores/img/{{ skill_name }}.png"
@@ -68,25 +68,25 @@
 	<table class="table table-hover table-striped table-bordered" style="margin-top:0;">
 		<thread>
 			<tr>
-				<th class = "skillCol1 align_right">Rank</th>
+				<th class = "skillCol1 text-right">Rank</th>
 				<th class = "skillCol2">Player</th>
-				<th class = "skillCol3 align_right">Level</th>
-				<th class = "skillCol4 align_right">Experience</th>
+				<th class = "skillCol3 text-right">Level</th>
+				<th class = "skillCol4 text-right">Experience</th>
 			</tr>
 		</thread>
 		<tbody>
 			{% for result in results %}
 				<tr>
-					<td class = "skillCol1 align_right">
+					<td class = "skillCol1 text-right">
 						<a href="/hiscores/player/{{ result.user_name }}/">{{ results|get_rank:forloop.counter0 }}</a>
 					</td>
 					<td class = "skillCol2">
 						<a href="/hiscores/player/{{ result.user_name }}/">{{ result.user_name }}</a>
 					</td>
-					<td class = "skillCol3 align_right">
+					<td class = "skillCol3 text-right">
 						<a href="/hiscores/player/{{ result.user_name }}/">{{ result|displaySkill:skill }}</a>
 					</td>
-					<td class = "skillCol4 align_right">
+					<td class = "skillCol4 text-right">
 						<a href="/hiscores/player/{{ result.user_name }}/">{{ result|displayExp:skill }}</a>
 					</td>
 				</tr>

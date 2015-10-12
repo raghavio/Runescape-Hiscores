@@ -5,20 +5,20 @@
 <div class="col-md-2">
     <div class="panel panel-primary">
         <div class="panel-heading">
-            <h3 class="panel-title align_center">
+            <h3 class="panel-title text-center">
                 Category
             </h3>
         </div>
         <table class="table table-hover table-striped table-bordered" style="margin-top:0;">
             <thread>
                 <tr>
-                    <th class="col3 align_center">Skill</th>
+                    <th class="col3 text-center">Skill</th>
                 </tr>
             </thread>
             <tbody>
             {% for skill in player.get_skills %}
             <tr>
-                <td class="align_center">
+                <td class="text-center">
                     <a href="/hiscores/{{ skill.name|lower }}">
                         <img class="skillIcon" src="/static/hiscores/img/{{ skill.name }}.png"
                              alt="{{ skill.name }}"
@@ -49,21 +49,21 @@
         <table class="table table-hover table-striped table-bordered" style="margin-top:0;">
             <thread>
                 <tr>
-                    <th class="playerCol2 align_center">Rank</th>
-                    <th class="playerCol3 align_center">Total Experience</th>
-                    <th class="playerCol4 align_center">Level</th>
+                    <th class="playerCol2 text-center">Rank</th>
+                    <th class="playerCol3 text-center">Total Experience</th>
+                    <th class="playerCol4 text-center">Level</th>
                 </tr>
             </thread>
             <tbody>
             {% for skill in player.get_skills %}
             <tr>
-                <td class="playerCol2 align_center">
+                <td class="playerCol2 text-center">
                     <a href="/hiscores/{{ skill.name|lower }}">{{ skill.rank|intcomma }}</a>
                 </td>
-                <td class="playerCol3 align_center">
+                <td class="playerCol3 text-center">
                     <a href="/hiscores/{{ skill.name|lower }}">{{ skill.exp|intcomma }}</a>
                 </td>
-                <td class="playerCol4 align_center">
+                <td class="playerCol4 text-center">
                     <a href="/hiscores/{{ skill.name|lower }}">{{ skill.level|intcomma }}</a>
                 </td>
             </tr>
