@@ -1,5 +1,6 @@
+from django.core.exceptions import FieldError
 from django.http import Http404
-from django.shortcuts import render
+from django.shortcuts import render, get_object_or_404
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 
 from .models import Skills
@@ -7,10 +8,11 @@ from utils import skill_names
 
 
 def show_skill(request, skill):
+    skill = str(skill)
     skill_exp = skill + '_exp'
     try:
-        all_results = Skills.objects.order_by('-' + str(skill_exp)).values("user_name", skill, skill_exp)
-    except Skills.DoesNotExist:
+        all_results = Skills.objects.order_by('-%s' % skill_exp).values("user_name", skill, skill_exp)
+    except FieldError:
         raise Http404("404: Skill could not be found.")
     paginator = Paginator(all_results, 26)
     page = request.GET.get('page')
@@ -34,3 +36,7 @@ def show_skill(request, skill):
     context = {'results': results_page, 'skill': skill, 'skills_name': skill_names, 'page_numbers': page_numbers}
     return render(request, 'hiscores/show_skill.html', context)
 
+
+def player(request, user_name):
+    player_profile = get_object_or_404(Skills, user_name=user_name)
+    return render(request, 'hiscores/player.html', {'player': player_profile})

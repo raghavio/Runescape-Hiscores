@@ -1,0 +1,79 @@
+{% extends 'hiscores/base.html' %}
+{% load humanize %}
+
+{% block content %}
+<div class="col-md-2">
+    <div class="panel panel-primary">
+        <div class="panel-heading">
+            <h3 class="panel-title align_center">
+                Category
+            </h3>
+        </div>
+        <table class="table table-hover table-striped table-bordered" style="margin-top:0;">
+            <thread>
+                <tr>
+                    <th class="col3 align_center">Skill</th>
+                </tr>
+            </thread>
+            <tbody>
+            {% for skill in player.get_skills %}
+            <tr>
+                <td class="align_center">
+                    <a href="/hiscores/{{ skill.name|lower }}">
+                        <img class="skillIcon" src="/static/hiscores/img/{{ skill.name }}.png"
+                             alt="{{ skill.name }}"
+                             title="{{ skill.name }}"
+                             style="float:left;"/>
+                        {{ skill.name }}
+                        <img class="skillIcon" src="/static/hiscores/img/{{ skill.name }}.png"
+                             alt="{{ skill.name }}"
+                             title="{{ skill.name }}"
+                             style="float:right"/>
+                    </a>
+                </td>
+            </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+
+
+<div class="col-sm-12 col-md-6">
+    <div class="panel panel-primary">
+        <div class="panel-heading">
+            <h3 class="panel-title">
+                {{ player.user_name }}
+            </h3>
+        </div>
+        <table class="table table-hover table-striped table-bordered" style="margin-top:0;">
+            <thread>
+                <tr>
+                    <th class="playerCol2 align_center">Rank</th>
+                    <th class="playerCol3 align_center">Total Experience</th>
+                    <th class="playerCol4 align_center">Level</th>
+                </tr>
+            </thread>
+            <tbody>
+            {% for skill in player.get_skills %}
+            <tr>
+                <td class="playerCol2 align_center">
+                    <a href="/hiscores/{{ skill.name|lower }}">{{ skill.rank|intcomma }}</a>
+                </td>
+                <td class="playerCol3 align_center">
+                    <a href="/hiscores/{{ skill.name|lower }}">{{ skill.exp|intcomma }}</a>
+                </td>
+                <td class="playerCol4 align_center">
+                    <a href="/hiscores/{{ skill.name|lower }}">{{ skill.level|intcomma }}</a>
+                </td>
+            </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<!-- Need to decide what else I can show here -->
+<div class="col-sm-12 col-md-1">
+</div>
+{% endblock content %}
