@@ -1,8 +1,8 @@
 import math
 
-skill_names = ["Overall", "Attack", "Defence", "Strength", "Constitution", "Ranged",
-               "Prayer", "Magic", "Cooking", "Woodcutting", "Fletching",
-               "Fishing", "Firemaking", "Crafting", "Smithing", "Mining",
-               "Herblore", "Agility", "Thieving", "Slayer", "Farming",
-               "Runecrafting", "Construction", "Hunter", "Summoning",
-               "Dungeoneering"]
+skill_names = ["overall", "attack", "defence", "strength", "constitution", "ranged",
+               "prayer", "magic", "cooking", "woodcutting", "fletching",
+               "fishing", "firemaking", "crafting", "smithing", "mining",
+               "herblore", "agility", "thieving", "slayer", "farming",
+               "runecrafting", "construction", "hunter", "summoning",
+               "dungeoneering"]

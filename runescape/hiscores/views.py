@@ -2,11 +2,13 @@ from django.core.exceptions import FieldError
 from django.http import Http404
 from django.shortcuts import render, get_object_or_404
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
+from django.views.decorators.http import require_http_methods
 
 from .models import Skills
 from utils import skill_names
 
 
+@require_http_methods(["GET"])
 def show_skill(request, skill):
     skill = str(skill)
     skill_exp = skill + '_exp'
@@ -33,10 +35,20 @@ def show_skill(request, skill):
     if end_page >= paginator.num_pages - 1:
         end_page = paginator.num_pages + 1
     page_numbers = [n for n in range(start_page, end_page) if 0 < n <= paginator.num_pages]
-    context = {'results': results_page, 'skill': skill, 'skills_name': skill_names, 'page_numbers': page_numbers}
+    context = {'results': results_page, 'skill': skill, 'skills': skill_names, 'page_numbers': page_numbers}
     return render(request, 'hiscores/show_skill.html', context)
 
 
+@require_http_methods(["GET"])
 def player(request, user_name):
     player_profile = get_object_or_404(Skills, user_name=user_name)
-    return render(request, 'hiscores/player.html', {'player': player_profile})
+    context = {'player': player_profile, 'skills': skill_names}
+    return render(request, 'hiscores/player.html', context)
+
+
+@require_http_methods(["GET"])
+def compare(request, player1, player2):
+    player1_profile = get_object_or_404(Skills, user_name=player1)
+    player2_profile = get_object_or_404(Skills, user_name=player2)
+    context = {'player1': player1_profile, 'player2': player2_profile, 'skills': skill_names}
+    return render(request, 'hiscores/compare.html', context)

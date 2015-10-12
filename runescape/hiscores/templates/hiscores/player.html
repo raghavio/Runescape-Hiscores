@@ -16,18 +16,18 @@
                 </tr>
             </thread>
             <tbody>
-            {% for skill in player.get_skills %}
+            {% for skill in skills %}
             <tr>
                 <td class="text-center">
-                    <a href="/hiscores/{{ skill.name|lower }}">
-                        <img class="skillIcon" src="/static/hiscores/img/{{ skill.name }}.png"
-                             alt="{{ skill.name }}"
-                             title="{{ skill.name }}"
+                    <a href="/hiscores/{{ skill }}">
+                        <img class="skillIcon" src="/static/hiscores/img/{{ skill }}.png"
+                             alt="{{ skill }}"
+                             title="{{ skill }}"
                              style="float:left;"/>
-                        {{ skill.name }}
-                        <img class="skillIcon" src="/static/hiscores/img/{{ skill.name }}.png"
-                             alt="{{ skill.name }}"
-                             title="{{ skill.name }}"
+                        {{ skill|title }}
+                        <img class="skillIcon" src="/static/hiscores/img/{{ skill }}.png"
+                             alt="{{ skill }}"
+                             title="{{ skill }}"
                              style="float:right"/>
                     </a>
                 </td>

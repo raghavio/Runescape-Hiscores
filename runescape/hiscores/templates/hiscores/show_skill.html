@@ -18,18 +18,18 @@
 				</tr>
 			</thread>
 			<tbody>
-				{% for skill_name in skills_name %}
+				{% for skill_name in skills %}
 					<tr>
-					{% if skill_name|lower == skill %}
+					{% if skill_name == skill %}
 						<td class = "text-center warning">
 					{% else %}
 						<td class = "text-center">
 					{% endif %}
-							<a href="/hiscores/{{ skill_name|lower }}/">
+							<a href="/hiscores/{{ skill_name }}/">
 								<img class="skillIcon" src="/static/hiscores/img/{{ skill_name }}.png"
 									title="{{ skill_name }}"
 									style="float:left;"/>
-									{{ skill_name }}
+									{{ skill_name|title }}
 								<img class="skillIcon" src="/static/hiscores/img/{{ skill_name }}.png"
 									title="{{ skill_name }}"
 									style="float:right"/>
