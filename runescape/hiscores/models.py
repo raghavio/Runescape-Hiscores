@@ -1,4 +1,7 @@
 from django.db import models
+from django.db import connection
+
+from utils import skill_names
 
 
 class Skills(models.Model):
@@ -88,15 +91,17 @@ class Skills(models.Model):
         :return: a list of dictionaries containing name, rank, level and exp for each skill
         """
         skill_values = []
-
-        from utils import skill_names
+        cursor = connection.cursor()
         for skill in skill_names:
             level_name = self._meta.get_field(skill).name
             exp_name = self._meta.get_field(skill + '_exp').name
             level = getattr(self, level_name)
             exp = getattr(self, exp_name)
-            players = Skills.objects.order_by("-%s" % exp_name).all()
-            rank = [i + 1 for i, player in enumerate(players) if player.user_name == self.user_name][0]
+            subquery = "select row_number() OVER(ORDER BY " + exp_name + " DESC) as rank,user_name from hiscores_skills"
+            query = "select row.rank from (" + subquery + ") as row where row.user_name=%s"
+            cursor.execute(query, [self.user_name])
+            rank = int(cursor.fetchone()[0])
+            
             skill_values.append({
                 'name': skill.title(),
                 'rank': rank,
