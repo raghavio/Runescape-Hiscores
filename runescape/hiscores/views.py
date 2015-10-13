@@ -50,5 +50,9 @@ def player(request, user_name):
 def compare(request, player1, player2):
     player1_profile = get_object_or_404(Skills, user_name=player1)
     player2_profile = get_object_or_404(Skills, user_name=player2)
-    context = {'player1': player1_profile, 'player2': player2_profile, 'skills': skill_names}
+    player1_skills, player2_skills = player1_profile.compare_skills(player2_profile)
+    context = {'player1_username': player1_profile.user_name, 'player2_username': player2_profile.user_name,
+               'skills': skill_names,
+               'player1_skills': player1_skills,
+               'player2_skills': player2_skills}
     return render(request, 'hiscores/compare.html', context)

@@ -16,7 +16,7 @@ def get_rank(page, loop_counter):
 
 
 @register.filter
-def displaySkill(d, skill):
+def display_skill(d, skill):
     """
     Display skill in template
     :param d: Dictionary
@@ -27,7 +27,7 @@ def displaySkill(d, skill):
 
 
 @register.filter
-def displayExp(d, skill):
+def display_exp(d, skill):
     """
     Display exp of the specified skill in template
     :param d: Dictionary
@@ -36,3 +36,14 @@ def displayExp(d, skill):
     """
     skill_exp = skill + "_exp"
     return "{:,}".format(int(d[skill_exp]))
+
+
+@register.filter
+def get_exp(l, index):
+    """
+    Gets the 'exp' key from a list of dictionary
+    :param l: The list
+    :param index: List index
+    :return: 'exp' key
+    """
+    return l[index]['exp']

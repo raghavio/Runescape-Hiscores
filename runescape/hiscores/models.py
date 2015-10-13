@@ -87,28 +87,76 @@ class Skills(models.Model):
 
     def get_skills(self):
         """
-        Get a player's stats
-        :return: a list of dictionaries containing name, rank, level and exp for each skill
+        Get a player's stats in a list by using Model's '_meta' field.
+        Using row_number() to get level_rank of a player in a particular skill
+
+        :return: a list of dictionaries containing skill, rank, level and exp for each skill
         """
-        skill_values = []
+        player_stats = []
         cursor = connection.cursor()
         for skill in skill_names:
             level_name = self._meta.get_field(skill).name
             exp_name = self._meta.get_field(skill + '_exp').name
-            level = getattr(self, level_name)
-            exp = getattr(self, exp_name)
+
             subquery = "select row_number() OVER(ORDER BY " + exp_name + " DESC) as rank,user_name from hiscores_skills"
             query = "select row.rank from (" + subquery + ") as row where row.user_name=%s"
             cursor.execute(query, [self.user_name])
-            rank = int(cursor.fetchone()[0])
-            
-            skill_values.append({
+
+            level_rank = int(cursor.fetchone()[0])
+            level = getattr(self, level_name)
+            exp = getattr(self, exp_name)
+
+            player_stats.append({
                 'name': skill.title(),
-                'rank': rank,
+                'rank': level_rank,
                 'level': level,
                 'exp': int(exp),
             })
-        return skill_values
+
+        return player_stats
+
+    def compare_skills(self, player2):
+        """
+        Does pretty much same what the above get_skills() does but for both the players at the cost of just one loop.
+        Getting a rank using row_number() is a very costly operation. Instead of calling get_skills() twice it's a lot
+        efficient to get level_rank of both the players in just one query by providing both usernames in where clause.
+
+        :return: Two lists each containing skill, rank, level and exp in a dictionary for each skill of both players
+        """
+        player1_stats, player2_stats = [], []
+        cursor = connection.cursor()
+        for skill in skill_names:
+            level_name = self._meta.get_field(skill).name
+            exp_name = self._meta.get_field(skill + '_exp').name
+
+            subquery = "select row_number() OVER(ORDER BY " + exp_name + " DESC) as rank,user_name from hiscores_skills"
+            query = "select row.rank from (" + subquery + ") as row where row.user_name=%s or row.user_name=%s"
+            cursor.execute(query, [self.user_name, player2.user_name])
+            results = cursor.fetchall()
+
+            player1_level_level_rank = int(results[0][0])
+            player1_level = getattr(self, level_name)
+            player1_exp = getattr(self, exp_name)
+
+            player1_stats.append({
+                'name': skill.title(),
+                'rank': player1_level_level_rank,
+                'level': player1_level,
+                'exp': int(player1_exp),
+            })
+
+            player2_level_level_rank = int(results[1][0])
+            player2_level = getattr(player2, level_name)
+            player2_exp = getattr(player2, exp_name)
+
+            player2_stats.append({
+                'name': skill.title(),
+                'rank': player2_level_level_rank,
+                'level': player2_level,
+                'exp': int(player2_exp),
+            })
+
+        return player1_stats, player2_stats
 
     def __str__(self):
         return self.user_name
