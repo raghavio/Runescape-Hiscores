@@ -84,10 +84,10 @@
 						<a href="/hiscores/player/{{ result.user_name }}/">{{ result.user_name }}</a>
 					</td>
 					<td class = "skillCol3 text-right">
-						<a href="/hiscores/player/{{ result.user_name }}/">{{ result|displaySkill:skill }}</a>
+						<a href="/hiscores/player/{{ result.user_name }}/">{{ result|display_skill:skill }}</a>
 					</td>
 					<td class = "skillCol4 text-right">
-						<a href="/hiscores/player/{{ result.user_name }}/">{{ result|displayExp:skill }}</a>
+						<a href="/hiscores/player/{{ result.user_name }}/">{{ result|display_exp:skill }}</a>
 					</td>
 				</tr>
 			{% endfor %}
@@ -136,3 +136,7 @@
 </div>
 </div>
 {% endblock content %}
+
+{% block forms %}
+	{{block.super}}
+{% endblock forms %}

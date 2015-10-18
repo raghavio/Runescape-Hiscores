@@ -1,11 +1,13 @@
 from django.core.exceptions import FieldError
-from django.http import Http404
+from django.core.urlresolvers import reverse
+from django.http import Http404, HttpResponseRedirect
 from django.shortcuts import render, get_object_or_404
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from django.views.decorators.http import require_http_methods
 
 from .models import Skills
 from utils import skill_names
+from forms import SearchForm, CompareForm
 
 
 @require_http_methods(["GET"])
@@ -35,21 +37,55 @@ def show_skill(request, skill):
     if end_page >= paginator.num_pages - 1:
         end_page = paginator.num_pages + 1
     page_numbers = [n for n in range(start_page, end_page) if 0 < n <= paginator.num_pages]
-    context = {'results': results_page, 'skill': skill, 'skills': skill_names, 'page_numbers': page_numbers}
+
+    search_form, compare_form = _get_form(request)
+    if search_form.is_valid():
+        return HttpResponseRedirect(reverse('player', args=(request.GET['search'],)))
+    elif compare_form.is_valid():
+        return HttpResponseRedirect(reverse('compare', args=(request.GET['player1'], request.GET['player2'])))
+
+    context = {'results': results_page, 'skill': skill, 'skills': skill_names, 'page_numbers': page_numbers,
+               'search_form': search_form, 'compare_form': compare_form}
     return render(request, 'hiscores/show_skill.html', context)
 
 
 @require_http_methods(["GET"])
 def player(request, user_name):
     player_profile = get_object_or_404(Skills, user_name=user_name)
-    context = {'player': player_profile, 'skills': skill_names}
+
+    search_form, compare_form = _get_form(request)
+    if not compare_form.is_bound:  # Check if form is bounded with any data or not.
+        # If not bounded, set initial value of compare form to player's user_name.
+        compare_form.initial = {'player1': user_name}
+    if search_form.is_valid():
+        return HttpResponseRedirect(reverse('player', args=(request.GET['search'],)))
+    elif compare_form.is_valid():
+        return HttpResponseRedirect(reverse('compare', args=(request.GET['player1'], request.GET['player2'])))
+
+    context = {'player': player_profile, 'skills': skill_names, 'search_form': search_form,
+               'compare_form': compare_form}
     return render(request, 'hiscores/player.html', context)
+
+
+def _get_form(request):
+    """
+    Creates unbounded or bonded search and compare form. Depending on whether request object has data or not.
+    :param request: HttpRequest object with data if user has submitted the form.
+    :return: forms created
+    """
+    if 'player1' and 'player2' in request.GET:
+        search_form, compare_form = SearchForm(), CompareForm(request.GET)
+    elif 'search' in request.GET:
+        search_form, compare_form = SearchForm(request.GET), CompareForm()
+    else:
+        search_form, compare_form = SearchForm(), CompareForm()
+    return search_form, compare_form
 
 
 @require_http_methods(["GET"])
 def compare(request, player1, player2):
-    player1_profile = get_object_or_404(Skills, user_name=player1)
-    player2_profile = get_object_or_404(Skills, user_name=player2)
+    player1_profile = Skills.objects.get(user_name=player1)
+    player2_profile = Skills.objects.get(user_name=player2)
     player1_skills, player2_skills = player1_profile.compare_skills(player2_profile)
     context = {'player1_username': player1_profile.user_name, 'player2_username': player2_profile.user_name,
                'skills': skill_names,

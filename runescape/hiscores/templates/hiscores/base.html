@@ -2,61 +2,69 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<meta charset="utf-8">
+    <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-	<title>Runscape - Hiscores</title>
-	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
-	<link rel="stylesheet" href="{% static 'hiscores/css/custom.css' %}">
-	<link href='http://fonts.googleapis.com/css?family=Oswald' rel='stylesheet' type='text/css'>
+    <title>Runscape - Hiscores</title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+    <link rel="stylesheet" href="{% static 'hiscores/css/custom.css' %}">
+    <link href='http://fonts.googleapis.com/css?family=Oswald' rel='stylesheet' type='text/css'>
 </head>
 <body>
-	<section id="page-header">
-		<div class="container">
-			<div class="col-md-12 col-md-12">
-				<h1>Runescape Hiscores</h1>
-			</div>
-		</div>
-	</section>
-
-	<section id="main-body">
-		<div class="container">
-			{% block content %}
-			{% endblock %}
-			{% block forms %}
-				<div class="col-sm-12 col-md-3">
-					<div class="panel panel-primary">
-						<div class="panel-heading"><h3 class="panel-title">Search</h3></div>
-						<div class="panel-body">
-							<form>
-								<div class="form-group">
-									<input class="form-control" id="search-input" name="player" placeholder="Username here">
-								</div>
-								<button type="submit" class="btn btn-success btn-block"><i class="fa fa-search"></i> Search</button>
-							</form>
-						</div>
-					</div>
-
-					<div class="panel panel-primary">
-						<div class="panel-heading"><h3 class="panel-title">Compare</h3></div>
-						<div class="panel-body">
-							<form>
-								<div class="form-group">
-									<input class="form-control" id="player-input" name="player" placeholder="Username here">
-								</div>
-								<div class="form-group">
-									<input class="form-control" id="compare-input" name="other" placeholder="Username here">
-								</div>
-								<button type="submit" class="btn btn-success btn-block"><i class="fa fa-search"></i> Compare</button>
-							</form>
-						</div>
+<section id="page-header">
+    <div class="container">
+        <div class="col-md-12 col-md-12">
+            <h1>Runescape Hiscores</h1>
+        </div>
+    </div>
+</section>
+<section id="main-body">
+	<div class="container">
+		{% block content %}
+		{% endblock %}
+		{% block forms %}
+			<div class="col-sm-12 col-md-3">
+				<div class="panel panel-primary">
+					<div class="panel-heading"><h3 class="panel-title">Search</h3></div>
+					<div class="panel-body">
+						<form>
+							<input type="hidden" name="page" value="{{results.number}}">
+							{% if search_form.search.errors %}
+							<div class="form-group has-error">
+							{% else %}
+							<div class="form-group">
+							{% endif %}
+								{{ search_form.search.errors|striptags }}
+								{{ search_form.search }}
+							</div>
+							<button type="submit" class="btn btn-success btn-block">Search</button>
+						</form>
 					</div>
 				</div>
-			{% endblock %}
-		</div>
-	</section>
-	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
-	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
-
+			<div class="panel panel-primary">
+					<div class="panel-heading"><h3 class="panel-title">Compare</h3></div>
+					<div class="panel-body">
+						<form>
+							<input type="hidden" name="page" value="{{results.number}}">
+							{% for field in compare_form %}
+								{% if field.errors %}
+								<div class="form-group has-error">
+								{% else %}
+								<div class="form-group">
+								{% endif %}
+									{{ field.errors|striptags }}
+									{{ field }}
+								</div>
+							{% endfor %}
+							<button type="submit" class="btn btn-success btn-block">Compare</button>
+						</form>
+					</div>
+				</div>
+			</div>
+		{% endblock %}
+	</div>
+</section>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
 </body>
 </html>
