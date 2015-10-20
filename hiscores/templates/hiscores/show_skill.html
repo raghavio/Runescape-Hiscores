@@ -76,7 +76,11 @@
 		</thread>
 		<tbody>
 			{% for result in results %}
-				<tr>
+                {% if highlight_rank == results.start_index|add:forloop.counter0 %}
+				<tr class="warning">
+                {% else %}
+                <tr>
+                {% endif %}
 					<td class = "skillCol1 text-right">
 						<a href="/hiscores/player/{{ result.user_name }}/">{{ results|get_rank:forloop.counter0 }}</a>
 					</td>

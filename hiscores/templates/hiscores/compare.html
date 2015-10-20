@@ -23,7 +23,7 @@
             {% for skill in player1_skills %}
             <tr>
                 <td  class="col1 text-left">
-                    <a href="">{{ skill.rank|intcomma }}</a>
+                    <a href="/hiscores/{{ skill.name|lower }}?rank={{ skill.rank }}">{{ skill.rank|intcomma }}</a>
                 </td>
                 {% if skill.exp > player2_skills|get_exp:forloop.counter0 %}
                 <td class="col4 text-left success">
@@ -32,10 +32,10 @@
                 {% else %}
                 <td class="col4 text-left">
                 {% endif %}
-                    <a href="">{{ skill.exp|intcomma }}</a>
+                    <a href="/hiscores/{{ skill.name|lower }}?rank={{ skill.rank }}">{{ skill.exp|intcomma }}</a>
                 </td>
                 <td class="col3 text-left">
-                    <a href="">{{ skill.level|intcomma }}</a>
+                    <a href="/hiscores/{{ skill.name|lower }}?rank={{ skill.rank }}">{{ skill.level|intcomma }}</a>
                 </td>
             </tr>
             {% endfor %}
@@ -101,7 +101,7 @@
             {% for skill in player2_skills %}
             <tr>
                 <td class="col3 text-right">
-                    <a href="/hiscores/{{ skill.name }}">{{ skill.level|intcomma }}</a>
+                    <a href="/hiscores/{{ skill.name|lower }}?rank={{ skill.rank }}">{{ skill.level|intcomma }}</a>
                 </td>
                 {% if skill.exp > player1_skills|get_exp:forloop.counter0 %}
                 <td class="col4 text-right success">
@@ -110,10 +110,10 @@
                 {% else %}
                 <td class="col4 text-right">
                 {% endif %}
-                    <a href="/hiscores/{{ skill.name }}">{{ skill.exp|intcomma }}</a>
+                    <a href="/hiscores/{{ skill.name|lower }}?rank={{ skill.rank }}">{{ skill.exp|intcomma }}</a>
                 </td>
                 <td class="col1 text-right">
-                    <a href="/hiscores/{{ skill.name }}">{{ skill.rank|intcomma }}</a>
+                    <a href="/hiscores/{{ skill.name|lower }}?rank={{ skill.rank }}">{{ skill.rank|intcomma }}</a>
                 </td>
             </tr>
             {% endfor %}

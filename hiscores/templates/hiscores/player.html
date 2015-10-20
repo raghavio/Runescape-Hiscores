@@ -58,13 +58,13 @@
             {% for skill in player.get_skills %}
             <tr>
                 <td class="playerCol2 text-center">
-                    <a href="/hiscores/{{ skill.name|lower }}">{{ skill.rank|intcomma }}</a>
+                    <a href="/hiscores/{{ skill.name|lower }}?rank={{ skill.rank }}">{{ skill.rank|intcomma }}</a>
                 </td>
                 <td class="playerCol3 text-center">
-                    <a href="/hiscores/{{ skill.name|lower }}">{{ skill.exp|intcomma }}</a>
+                    <a href="/hiscores/{{ skill.name|lower }}?rank={{ skill.rank }}">{{ skill.exp|intcomma }}</a>
                 </td>
                 <td class="playerCol4 text-center">
-                    <a href="/hiscores/{{ skill.name|lower }}">{{ skill.level|intcomma }}</a>
+                    <a href="/hiscores/{{ skill.name|lower }}?rank={{ skill.rank }}">{{ skill.level|intcomma }}</a>
                 </td>
             </tr>
             {% endfor %}

@@ -14,12 +14,23 @@ from forms import SearchForm, CompareForm
 def show_skill(request, skill):
     skill = str(skill)
     skill_exp = skill + '_exp'
+    number_of_skills = len(skill_names)
+    context = {}
+
     try:
         all_results = Skills.objects.order_by('-%s' % skill_exp).values("user_name", skill, skill_exp)
     except FieldError:
         raise Http404("404: Skill could not be found.")
-    paginator = Paginator(all_results, 26)
-    page = request.GET.get('page')
+    paginator = Paginator(all_results, number_of_skills)
+
+    rank = request.GET.get('rank', None)
+    if rank and rank.isdigit():
+        from math import ceil
+        rank = float(rank)
+        page = ceil(rank / number_of_skills)
+        context['highlight_rank'] = rank
+    else:
+        page = request.GET.get('page')
 
     try:
         results_page = paginator.page(page)
@@ -44,8 +55,8 @@ def show_skill(request, skill):
     elif compare_form.is_valid():
         return HttpResponseRedirect(reverse('compare', args=(request.GET['player1'], request.GET['player2'])))
 
-    context = {'results': results_page, 'skill': skill, 'skills': skill_names, 'page_numbers': page_numbers,
-               'search_form': search_form, 'compare_form': compare_form}
+    context.update({'results': results_page, 'skill': skill, 'skills': skill_names, 'page_numbers': page_numbers,
+                    'search_form': search_form, 'compare_form': compare_form})
     return render(request, 'hiscores/show_skill.html', context)
 
 
