@@ -95,8 +95,8 @@ def _get_form(request):
 
 @require_http_methods(["GET"])
 def compare(request, player1, player2):
-    player1_profile = Skills.objects.get(user_name=player1)
-    player2_profile = Skills.objects.get(user_name=player2)
+    player1_profile = get_object_or_404(Skills, user_name=player1)
+    player2_profile = get_object_or_404(Skills, user_name=player2)
     player1_skills, player2_skills = player1_profile.compare_skills(player2_profile)
     context = {'player1_username': player1_profile.user_name, 'player2_username': player2_profile.user_name,
                'skills': skill_names,
