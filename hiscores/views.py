@@ -62,7 +62,7 @@ def show_skill(request, skill):
 
 @require_http_methods(["GET"])
 def player(request, user_name):
-    player_profile = get_object_or_404(Skills, user_name=user_name)
+    player_profile = get_object_or_404(Skills, user_name__iexact=user_name)
 
     search_form, compare_form = _get_form(request)
     if not compare_form.is_bound:  # Check if form is bounded with any data or not.
@@ -95,8 +95,8 @@ def _get_form(request):
 
 @require_http_methods(["GET"])
 def compare(request, player1, player2):
-    player1_profile = get_object_or_404(Skills, user_name=player1)
-    player2_profile = get_object_or_404(Skills, user_name=player2)
+    player1_profile = get_object_or_404(Skills, user_name__iexact=player1)
+    player2_profile = get_object_or_404(Skills, user_name__iexact=player2)
     player1_skills, player2_skills = player1_profile.compare_skills(player2_profile)
     context = {'player1_username': player1_profile.user_name, 'player2_username': player2_profile.user_name,
                'skills': skill_names,

@@ -10,7 +10,7 @@ class SearchForm(forms.Form):
     def clean_search(self):
         search = self.cleaned_data['search']
         try:
-            Skills.objects.get(user_name=search)
+            Skills.objects.get(user_name__iexact=search)
         except Skills.DoesNotExist:
             raise forms.ValidationError("Player does not exist.")
 
@@ -26,7 +26,7 @@ class CompareForm(forms.Form):
     def clean_player1(self):
         player1 = self.cleaned_data['player1']
         try:
-            Skills.objects.get(user_name=player1)
+            Skills.objects.get(user_name__iexact=player1)
         except Skills.DoesNotExist:
             raise forms.ValidationError("Player does not exist.")
         return player1
@@ -34,7 +34,7 @@ class CompareForm(forms.Form):
     def clean_player2(self):
         player2 = self.cleaned_data['player2']
         try:
-            Skills.objects.get(user_name=player2)
+            Skills.objects.get(user_name__iexact=player2)
         except Skills.DoesNotExist:
             raise forms.ValidationError("Player does not exist.")
         return player2
