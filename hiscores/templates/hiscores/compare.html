@@ -4,7 +4,7 @@
 {% load staticfiles %}
 
 {% block content %}
-<div class="col-sm-9 col-md-5">
+<div class="col-sm-5 col-md-5 col-lg-5">
     <div class="panel panel-primary">
         <div class="panel-heading">
             <h3 class="panel-title">
@@ -45,7 +45,7 @@
 </div>
 
 
-<div class="col-md-2">
+<div class="col-sm-2 col-md-2 col-lg-2">
     <div class="panel panel-primary">
         <div class="panel-heading">
             <h3 class="panel-title text-center">
@@ -63,15 +63,21 @@
             <tr>
                 <td class="text-center">
                     <a href="/hiscores/{{ skill }}">
-                        <img class="skillIcon" src="/static/hiscores/img/{{ skill }}.png"
-                             alt="{{ skill }}"
-                             title="{{ skill }}"
-                             style="float:left;"/>
-                        {{ skill|title }}
-                        <img class="skillIcon" src="/static/hiscores/img/{{ skill }}.png"
-                             alt="{{ skill }}"
-                             title="{{ skill }}"
-                             style="float:right"/>
+                        <div id="skill-names-table">
+                            <img id="skill-icon-compare" class="skillIcon" src="/static/hiscores/img/{{ skill }}.png"
+                                 alt="{{ skill }}"
+                                 title="{{ skill }}"
+                                 style="float:left;"/>
+                            {{ skill|title }}
+                            <img id="skill-icon-compare" class="skillIcon" src="/static/hiscores/img/{{ skill }}.png"
+                                 alt="{{ skill }}"
+                                 title="{{ skill }}"
+                                 style="float:right"/>
+                        </div>
+                        <div id="skill-icons-table">
+                            <img class="skillIcon" src="/static/hiscores/img/{{ skill }}.png"
+                                 title="{{ skill }}"/>
+                        </div>
                     </a>
                 </td>
             </tr>
@@ -82,7 +88,7 @@
 </div>
 
 
-<div class="col-sm-9 col-md-5">
+<div class="col-sm-5 col-md-5 col-lg-5">
     <div class="panel panel-primary">
         <div class="panel-heading">
             <h3 class="panel-title text-right">

@@ -4,7 +4,7 @@
 
 
 {% block content %}
-<div class="col-md-2">
+<div class="col-xs-12 col-sm-4 col-md-3 col-lg-2">
 	<div class="panel panel-primary">
 		<div class="panel-heading">
 			<h3 class="panel-title text-center">
@@ -32,7 +32,7 @@
 									{{ skill_name|title }}
 								<img class="skillIcon" src="/static/hiscores/img/{{ skill_name }}.png"
 									title="{{ skill_name }}"
-									style="float:right"/>
+									style="float:right;"/>
 							</a>
 						</td>
 					</tr>
@@ -41,7 +41,7 @@
 		</table>
 	</div>
 </div>
-<div class="col-md-9 col-md-7">
+<div class="col-xs-12 col-sm-8 col-md-6 col-lg-7">
 	<div class="panel panel-primary">
 	<div class="panel-heading">
 		<h3 class="panel-title">
@@ -98,49 +98,48 @@
 		</tbody>
 	</table>
 </div>
-<div class="text-center">
-	<ul class="pagination">
-		<li {% if not results.has_previous %} class="disabled" {% endif %}>
-			<a {% if results.has_previous %} href="?page={{ results.previous_page_number }}" {% endif %}
-				aria-label="Previous">
-				<span aria-hidden="true">&laquo; Prev</span>
-			</a>
-		</li>
-	</ul>
-	<ul class="pagination">
-		{% if 1 not in page_numbers %}
-			<li>
-				<a href="?page=1">1</a>
-			</li>
-		{% endif %}
-	</ul>
-	<ul class="pagination">
-
-		{% for i in page_numbers %}
-			<li {% if results.number == i %} class="active" {% endif %}>
-				<a href="?page={{i}}">{{i}}</a>
-			</li>
-		{% endfor %}
-	</ul>
-	<ul class="pagination">
-		{% if results.paginator.num_pages not in page_numbers %}
-			<li>
-				<a href="?page={{results.paginator.num_pages}}">{{results.paginator.num_pages}}</a>
-			</li>
-		{% endif %}
-	</ul>
-	<ul class="pagination">
-		<li {% if not results.has_next %} class="disabled" {% endif %}>
-			<a {% if results.has_next %} href="?page={{ results.next_page_number }}" {% endif %}
-				aria-label="Next">
-				<span aria-hidden="true">Next &raquo;</span>
-			</a>
-		</li>
-	</ul>
 </div>
+{% include "hiscores/forms.html" %}
+<div class="col-xs-12">
+    <div class="text-center">
+        <ul class="pagination">
+            <li {% if not results.has_previous %} class="disabled" {% endif %}>
+                <a {% if results.has_previous %} href="?page={{ results.previous_page_number }}" {% endif %}
+                    aria-label="Previous">
+                    <span aria-hidden="true">&laquo; Prev</span>
+                </a>
+            </li>
+        </ul>
+        <ul class="pagination">
+            {% if 1 not in page_numbers %}
+                <li>
+                    <a href="?page=1">1</a>
+                </li>
+            {% endif %}
+        </ul>
+        <ul class="pagination">
+
+            {% for i in page_numbers %}
+                <li {% if results.number == i %} class="active" {% endif %}>
+                    <a href="?page={{i}}">{{i}}</a>
+                </li>
+            {% endfor %}
+        </ul>
+        <ul class="pagination">
+            {% if results.paginator.num_pages not in page_numbers %}
+                <li>
+                    <a href="?page={{results.paginator.num_pages}}">{{results.paginator.num_pages}}</a>
+                </li>
+            {% endif %}
+        </ul>
+        <ul class="pagination">
+            <li {% if not results.has_next %} class="disabled" {% endif %}>
+                <a {% if results.has_next %} href="?page={{ results.next_page_number }}" {% endif %}
+                    aria-label="Next">
+                    <span aria-hidden="true">Next &raquo;</span>
+                </a>
+            </li>
+        </ul>
+    </div>
 </div>
 {% endblock content %}
-
-{% block forms %}
-	{{block.super}}
-{% endblock forms %}

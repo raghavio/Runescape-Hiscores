@@ -36,6 +36,9 @@ table a:hover {
     max-width: 20px;
     max-height: 20px;
 }
+#skill-icons-table {
+    display: none;
+}
 h1,h2,h3,h4,h5,h6 {
     font-family: 'Oswald', sans-serif;
 }
@@ -45,4 +48,23 @@ h1,h2,h3,h4,h5,h6 {
 
 ul.pagination {
     margin: 10px 0;
+}
+
+/* These media quires are for compare page. */
+@media screen and (min-width: 768px) and (max-width: 992px) {
+    #skill-icon {
+        display: none;
+    }
+    #skill-names-table {
+        display: none;
+    }
+    #skill-icons-table {
+        max-height: 20px;
+        display: block;
+    }
+}
+@media screen and (min-width: 992px) and (max-width: 1200px) {
+    #skill-icon-compare {
+        display: none;
+    }
 }
