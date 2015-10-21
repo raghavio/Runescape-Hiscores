@@ -52,7 +52,7 @@ class SearchRankForm(forms.Form):
         skill_exp = self.data['skill_exp']
         try:
             rank = max(int(rank), 1)  # Take to first rank if negative
-            user_name = Skills.objects.order_by("-%s" % skill_exp).values("user_name")[rank]['user_name']
+            user_name = Skills.objects.order_by("-%s" % skill_exp).values("user_name")[rank - 1]['user_name']
         except IndexError:
             raise forms.ValidationError("That rank does not exist.")
         except FieldError:
