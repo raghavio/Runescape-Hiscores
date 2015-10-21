@@ -7,7 +7,7 @@ from django.views.decorators.http import require_http_methods
 
 from .models import Skills
 from utils import skill_names
-from forms import SearchForm, CompareForm
+from forms import SearchForm, CompareForm, SearchRankForm
 
 
 @require_http_methods(["GET"])
@@ -49,14 +49,18 @@ def show_skill(request, skill):
         end_page = paginator.num_pages + 1
     page_numbers = [n for n in range(start_page, end_page) if 0 < n <= paginator.num_pages]
 
-    search_form, compare_form = _get_form(request)
+    search_form, compare_form, rank_form = _get_form(request)
+    rank_form.initial = {'skill_exp': skill_exp}
+
     if search_form.is_valid():
         return HttpResponseRedirect(reverse('player', args=(request.GET['search'],)))
     elif compare_form.is_valid():
         return HttpResponseRedirect(reverse('compare', args=(request.GET['player1'], request.GET['player2'])))
+    elif rank_form.is_valid():
+        return HttpResponseRedirect(reverse('player', args=(rank_form.cleaned_data['search_rank'],)))
 
     context.update({'results': results_page, 'skill': skill, 'skills': skill_names, 'page_numbers': page_numbers,
-                    'search_form': search_form, 'compare_form': compare_form})
+                    'search_form': search_form, 'compare_form': compare_form, 'rank_form': rank_form})
     return render(request, 'hiscores/show_skill.html', context)
 
 
@@ -64,7 +68,7 @@ def show_skill(request, skill):
 def player(request, user_name):
     player_profile = get_object_or_404(Skills, user_name__iexact=user_name)
 
-    search_form, compare_form = _get_form(request)
+    search_form, compare_form, _ = _get_form(request)
     if not compare_form.is_bound:  # Check if form is bounded with any data or not.
         # If not bounded, set initial value of compare form to player's user_name.
         compare_form.initial = {'player1': user_name}
@@ -85,12 +89,14 @@ def _get_form(request):
     :return: forms created
     """
     if 'player1' and 'player2' in request.GET:
-        search_form, compare_form = SearchForm(), CompareForm(request.GET)
+        search_form, compare_form, rank_form = SearchForm(), CompareForm(request.GET), SearchRankForm()
     elif 'search' in request.GET:
-        search_form, compare_form = SearchForm(request.GET), CompareForm()
+        search_form, compare_form, rank_form = SearchForm(request.GET), CompareForm(), SearchRankForm()
+    elif 'search_rank' in request.GET:
+        search_form, compare_form, rank_form = SearchForm(), CompareForm(), SearchRankForm(request.GET)
     else:
-        search_form, compare_form = SearchForm(), CompareForm()
-    return search_form, compare_form
+        search_form, compare_form, rank_form = SearchForm(), CompareForm(), SearchRankForm()
+    return search_form, compare_form, rank_form
 
 
 @require_http_methods(["GET"])

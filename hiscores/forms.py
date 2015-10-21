@@ -1,4 +1,5 @@
 from django import forms
+from django.core.exceptions import FieldError
 from .models import Skills
 
 
@@ -38,3 +39,25 @@ class CompareForm(forms.Form):
         except Skills.DoesNotExist:
             raise forms.ValidationError("Player does not exist.")
         return player2
+
+
+class SearchRankForm(forms.Form):
+    search_rank = forms.CharField(
+        widget=forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Rank', 'required': ''}),
+        max_length=30, label=False)
+    skill_exp = forms.CharField(widget=forms.HiddenInput())
+
+    def clean_search_rank(self):
+        rank = self.cleaned_data['search_rank']
+        skill_exp = self.data['skill_exp']
+        try:
+            rank = max(int(rank), 1)  # Take to first rank if negative
+            user_name = Skills.objects.order_by("-%s" % skill_exp).values("user_name")[rank]['user_name']
+        except IndexError:
+            raise forms.ValidationError("That rank does not exist.")
+        except FieldError:
+            raise forms.ValidationError("Oops, please try again.")
+        except ValueError:
+            raise forms.ValidationError("Enter a valid number.")
+        return user_name
+
