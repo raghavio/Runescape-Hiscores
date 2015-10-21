@@ -12,7 +12,7 @@ from forms import SearchForm, CompareForm, SearchRankForm
 
 @require_http_methods(["GET"])
 def show_skill(request, skill):
-    skill = str(skill)
+    skill = str(skill).lower()
     skill_exp = skill + '_exp'
     number_of_skills = len(skill_names)
     context = {}
