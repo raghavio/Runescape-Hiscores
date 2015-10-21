@@ -6,7 +6,7 @@ from .models import Skills
 class SearchForm(forms.Form):
     search = forms.CharField(
         widget=forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Username', 'required': ''}),
-        max_length=30, label=False)
+        max_length=12, label=False)
 
     def clean_search(self):
         search = self.cleaned_data['search']
@@ -19,10 +19,10 @@ class SearchForm(forms.Form):
 class CompareForm(forms.Form):
     player1 = forms.CharField(
         widget=forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Username', 'required': ''}),
-        max_length=30, label=False)
+        max_length=12, label=False)
     player2 = forms.CharField(
         widget=forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Username', 'required': ''}),
-        max_length=30, label=False)
+        max_length=12, label=False)
 
     def clean_player1(self):
         player1 = self.cleaned_data['player1']
