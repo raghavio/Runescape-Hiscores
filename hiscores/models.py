@@ -1,6 +1,7 @@
 from django.utils import timezone
 from django.db import models
 from django.db import connection
+from django.conf import settings
 
 from utils import skill_names
 
@@ -97,11 +98,13 @@ class Skills(models.Model):
         """
         player_stats = []
         cursor = connection.cursor()
+        db_name = settings.DATABASES['default']['NAME']  # I'm not sure where to put this actually.
+        table_name = type(self).__name__
         for skill in skill_names:
             level_name = self._meta.get_field(skill).name
             exp_name = self._meta.get_field(skill + '_exp').name
 
-            subquery = "select row_number() OVER(ORDER BY " + exp_name + " DESC, creation_time) as rank,user_name from hiscores_skills"
+            subquery = "select row_number() OVER(ORDER BY " + exp_name + " DESC, creation_time) as rank,user_name from %s_%s" % (db_name, table_name)
             query = "select row.rank from (" + subquery + ") as row where row.user_name=%s"
             cursor.execute(query, [self.user_name])
 
@@ -128,11 +131,13 @@ class Skills(models.Model):
         """
         player1_stats, player2_stats = [], []
         cursor = connection.cursor()
+        db_name = settings.DATABASES['default']['NAME']  # I'm not sure where to put this actually.
+        table_name = type(self).__name__
         for skill in skill_names:
             level_name = self._meta.get_field(skill).name
             exp_name = self._meta.get_field(skill + '_exp').name
 
-            subquery = "select row_number() OVER(ORDER BY " + exp_name + " DESC, creation_time) as rank,user_name from hiscores_skills"
+            subquery = "select row_number() OVER(ORDER BY " + exp_name + " DESC, creation_time) as rank,user_name from %s_%s" % (db_name, table_name)
             query = "select row.rank, row.user_name from (" + subquery + ") as row where row.user_name=%s or row.user_name=%s"
             cursor.execute(query, [self.user_name, player2.user_name])
             results = cursor.fetchall()
