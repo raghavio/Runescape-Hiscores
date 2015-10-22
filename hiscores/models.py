@@ -1,3 +1,4 @@
+from django.utils import timezone
 from django.db import models
 from django.db import connection
 
@@ -85,6 +86,8 @@ class Skills(models.Model):
 
     user_name = models.CharField(max_length=30, primary_key=True)
 
+    creation_time = models.DateTimeField(default=timezone.now)
+
     def get_skills(self):
         """
         Get a player's stats in a list by using Model's '_meta' field.
@@ -98,7 +101,7 @@ class Skills(models.Model):
             level_name = self._meta.get_field(skill).name
             exp_name = self._meta.get_field(skill + '_exp').name
 
-            subquery = "select row_number() OVER(ORDER BY " + exp_name + " DESC) as rank,user_name from hiscores_skills"
+            subquery = "select row_number() OVER(ORDER BY " + exp_name + " DESC, creation_time) as rank,user_name from hiscores_skills"
             query = "select row.rank from (" + subquery + ") as row where row.user_name=%s"
             cursor.execute(query, [self.user_name])
 

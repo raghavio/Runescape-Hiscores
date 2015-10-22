@@ -18,9 +18,10 @@ def show_skill(request, skill):
     context = {}
 
     try:
-        all_results = Skills.objects.order_by('-%s' % skill_exp).values("user_name", skill, skill_exp)
+        all_results = Skills.objects.order_by('-%s' % skill_exp, 'creation_time').values("user_name", skill, skill_exp)
     except FieldError:
         raise Http404("404: Skill could not be found.")
+
     paginator = Paginator(all_results, number_of_skills)
 
     rank = request.GET.get('rank', None)
