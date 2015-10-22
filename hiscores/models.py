@@ -132,12 +132,18 @@ class Skills(models.Model):
             level_name = self._meta.get_field(skill).name
             exp_name = self._meta.get_field(skill + '_exp').name
 
-            subquery = "select row_number() OVER(ORDER BY " + exp_name + " DESC) as rank,user_name from hiscores_skills"
-            query = "select row.rank from (" + subquery + ") as row where row.user_name=%s or row.user_name=%s"
+            subquery = "select row_number() OVER(ORDER BY " + exp_name + " DESC, creation_time) as rank,user_name from hiscores_skills"
+            query = "select row.rank, row.user_name from (" + subquery + ") as row where row.user_name=%s or row.user_name=%s"
             cursor.execute(query, [self.user_name, player2.user_name])
             results = cursor.fetchall()
 
-            player1_level_level_rank = int(results[0][0])
+            # Our query will returns [('rank', 'user_name'), ('rank', 'user_name')]
+            # We identify user's rank by checking returned user_name with object's user_name field.
+            if results[0][1] == self.user_name:
+                player1_level_level_rank, player2_level_level_rank = int(results[0][0]), int(results[1][0])
+            else:
+                player2_level_level_rank, player1_level_level_rank = int(results[0][0]), int(results[1][0])
+
             player1_level = getattr(self, level_name)
             player1_exp = getattr(self, exp_name)
 
@@ -148,7 +154,6 @@ class Skills(models.Model):
                 'exp': int(player1_exp),
             })
 
-            player2_level_level_rank = int(results[1][0])
             player2_level = getattr(player2, level_name)
             player2_exp = getattr(player2, exp_name)
 
