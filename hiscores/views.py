@@ -59,7 +59,8 @@ def show_skill(request, skill):
     elif rank_form.is_valid():
         return HttpResponseRedirect(reverse('player', args=(rank_form.cleaned_data['search_rank'],)))
 
-    context.update({'results': results_page, 'skill': skill, 'skills': skill_names, 'page_numbers': page_numbers,
+    context.update({'tab': 'hiscores', 'results': results_page, 'skill': skill, 'skills': skill_names,
+                    'page_numbers': page_numbers,
                     'search_form': search_form, 'compare_form': compare_form, 'rank_form': rank_form})
     return render(request, 'hiscores/show_skill.html', context)
 
@@ -77,7 +78,7 @@ def player(request, user_name):
     elif compare_form.is_valid():
         return HttpResponseRedirect(reverse('compare', args=(request.GET['player1'], request.GET['player2'])))
 
-    context = {'player': player_profile, 'skills': skill_names, 'search_form': search_form,
+    context = {'tab': 'hiscores', 'player': player_profile, 'skills': skill_names, 'search_form': search_form,
                'compare_form': compare_form}
     return render(request, 'hiscores/player.html', context)
 
@@ -104,7 +105,8 @@ def compare(request, player1, player2):
     player1_profile = get_object_or_404(Skills, user_name__iexact=player1)
     player2_profile = get_object_or_404(Skills, user_name__iexact=player2)
     player1_skills, player2_skills = player1_profile.compare_skills(player2_profile)
-    context = {'player1_username': player1_profile.user_name, 'player2_username': player2_profile.user_name,
+    context = {'tab': 'hiscores', 'player1_username': player1_profile.user_name,
+               'player2_username': player2_profile.user_name,
                'skills': skill_names,
                'player1_skills': player1_skills,
                'player2_skills': player2_skills}
