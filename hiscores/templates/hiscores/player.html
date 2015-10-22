@@ -1,5 +1,15 @@
 {% extends 'base.html' %}
 {% load humanize %}
+{% load staticfiles %}
+
+{% block title %}
+    {{ player.user_name }}'s Hiscores
+{% endblock %}
+
+{% block css %}
+    <link rel="stylesheet" href="{% static 'hiscores/css/custom.css' %}">
+    <link href='http://fonts.googleapis.com/css?family=Oswald' rel='stylesheet' type='text/css'>
+{% endblock %}
 
 {% block content %}
 <div class="col-xs-12 col-sm-4 col-md-3 col-lg-2">

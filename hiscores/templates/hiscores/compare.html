@@ -3,6 +3,15 @@
 {% load humanize %}
 {% load staticfiles %}
 
+{% block title %}
+    {{ player1_username }} vs {{ player2_username }}
+{% endblock %}
+
+{% block css %}
+    <link rel="stylesheet" href="{% static 'hiscores/css/custom.css' %}">
+    <link href='http://fonts.googleapis.com/css?family=Oswald' rel='stylesheet' type='text/css'>
+{% endblock %}
+
 {% block content %}
 <div class="col-sm-5 col-md-5 col-lg-5">
     <div class="panel panel-primary">

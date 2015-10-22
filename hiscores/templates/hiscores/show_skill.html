@@ -1,7 +1,16 @@
 {% extends 'base.html' %}
 {% load humanize %}
 {% load hiscores_tags %}
+{% load staticfiles %}
 
+{% block title %}
+    {{ skill|title }} | Hiscores
+{% endblock %}
+
+{% block css %}
+    <link rel="stylesheet" href="{% static 'hiscores/css/custom.css' %}">
+    <link href='http://fonts.googleapis.com/css?family=Oswald' rel='stylesheet' type='text/css'>
+{% endblock %}
 
 {% block content %}
 <div class="col-xs-12 col-sm-4 col-md-3 col-lg-2">
