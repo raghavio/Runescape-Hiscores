@@ -17,7 +17,7 @@
     <div class="panel panel-primary">
         <div class="panel-heading">
             <h3 class="panel-title">
-                <a href="/hiscores/player/{{player1_username}}">{{ player1_username }}</a>
+                <a href="{% url 'player' player1_username %}">{{ player1_username }}</a>
             </h3>
         </div>
         <table class="table table-hover table-striped table-bordered">
@@ -32,7 +32,7 @@
             {% for skill in player1_skills %}
             <tr>
                 <td  class="col1 text-left">
-                    <a href="/hiscores/{{ skill.name|lower }}?rank={{ skill.rank }}">{{ skill.rank|intcomma }}</a>
+                    <a href="{% url 'skill' skill.name|lower %}?rank={{ skill.rank }}">{{ skill.rank|intcomma }}</a>
                 </td>
                 {% if skill.exp > player2_skills|get_exp:forloop.counter0 %}
                 <td class="col4 text-left success">
@@ -41,10 +41,10 @@
                 {% else %}
                 <td class="col4 text-left">
                 {% endif %}
-                    <a href="/hiscores/{{ skill.name|lower }}?rank={{ skill.rank }}">{{ skill.exp|intcomma }}</a>
+                    <a href="{% url 'skill' skill.name|lower %}?rank={{ skill.rank }}">{{ skill.exp|intcomma }}</a>
                 </td>
                 <td class="col3 text-left">
-                    <a href="/hiscores/{{ skill.name|lower }}?rank={{ skill.rank }}">{{ skill.level|intcomma }}</a>
+                    <a href="{% url 'skill' skill.name|lower %}?rank={{ skill.rank }}">{{ skill.level|intcomma }}</a>
                 </td>
             </tr>
             {% endfor %}
@@ -71,7 +71,7 @@
             {% for skill in skills %}
             <tr>
                 <td class="text-center">
-                    <a href="/hiscores/{{ skill }}">
+                    <a href="{% url 'skill' skill %}">
                         <div id="skill-names-table">
                             <img id="skill-icon-compare" class="skillIcon" src="/static/hiscores/img/{{ skill }}.png"
                                  alt="{{ skill }}"
@@ -101,7 +101,7 @@
     <div class="panel panel-primary">
         <div class="panel-heading">
             <h3 class="panel-title text-right">
-                <a href="/hiscores/player/{{player2_username}}">{{ player2_username }}</a>
+                <a href="{% url 'player' player2_username %}">{{ player2_username }}</a>
             </h3>
         </div>
         <table class="table table-hover table-striped table-bordered">
@@ -116,7 +116,7 @@
             {% for skill in player2_skills %}
             <tr>
                 <td class="col3 text-right">
-                    <a href="/hiscores/{{ skill.name|lower }}?rank={{ skill.rank }}">{{ skill.level|intcomma }}</a>
+                    <a href="{% url 'skill' skill.name|lower %}?rank={{ skill.rank }}">{{ skill.level|intcomma }}</a>
                 </td>
                 {% if skill.exp > player1_skills|get_exp:forloop.counter0 %}
                 <td class="col4 text-right success">
@@ -125,10 +125,10 @@
                 {% else %}
                 <td class="col4 text-right">
                 {% endif %}
-                    <a href="/hiscores/{{ skill.name|lower }}?rank={{ skill.rank }}">{{ skill.exp|intcomma }}</a>
+                    <a href="{% url 'skill' skill.name|lower %}?rank={{ skill.rank }}">{{ skill.exp|intcomma }}</a>
                 </td>
                 <td class="col1 text-right">
-                    <a href="/hiscores/{{ skill.name|lower }}?rank={{ skill.rank }}">{{ skill.rank|intcomma }}</a>
+                    <a href="{% url 'skill' skill.name|lower %}?rank={{ skill.rank }}">{{ skill.rank|intcomma }}</a>
                 </td>
             </tr>
             {% endfor %}

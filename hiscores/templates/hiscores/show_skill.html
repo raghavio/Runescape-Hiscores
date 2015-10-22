@@ -34,7 +34,7 @@
 					{% else %}
 						<td class = "text-center">
 					{% endif %}
-							<a href="/hiscores/{{ skill_name }}/">
+							<a href="{% url 'skill' skill_name %}">
 								<img class="skillIcon" src="/static/hiscores/img/{{ skill_name }}.png"
 									title="{{ skill_name }}"
 									style="float:left;"/>
@@ -91,16 +91,16 @@
                 <tr>
                 {% endif %}
 					<td class = "skillCol1 text-right">
-						<a href="/hiscores/player/{{ result.user_name }}/">{{ results|get_rank:forloop.counter0 }}</a>
+						<a href="{% url 'player' result.user_name %}">{{ results|get_rank:forloop.counter0 }}</a>
 					</td>
 					<td class = "skillCol2">
-						<a href="/hiscores/player/{{ result.user_name }}/">{{ result.user_name }}</a>
+						<a href="{% url 'player' result.user_name %}">{{ result.user_name }}</a>
 					</td>
 					<td class = "skillCol3 text-right">
-						<a href="/hiscores/player/{{ result.user_name }}/">{{ result|display_skill:skill }}</a>
+						<a href="{% url 'player' result.user_name %}">{{ result|display_skill:skill }}</a>
 					</td>
 					<td class = "skillCol4 text-right">
-						<a href="/hiscores/player/{{ result.user_name }}/">{{ result|display_exp:skill }}</a>
+						<a href="{% url 'player' result.user_name %}">{{ result|display_exp:skill }}</a>
 					</td>
 				</tr>
 			{% endfor %}
