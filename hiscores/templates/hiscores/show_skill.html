@@ -4,7 +4,7 @@
 {% load staticfiles %}
 
 {% block title %}
-    {{ skill|title }} | Hiscores
+    Hiscores | {{ skill|title }}
 {% endblock %}
 
 {% block css %}
@@ -54,7 +54,7 @@
 	<div class="panel panel-primary">
 	<div class="panel-heading">
 		<h3 class="panel-title">
-			<div class="pull-right" style="margin-top:-2px;">
+			<div class="pull-right" style="margin-top:-2.5px;">
 					{% if results.has_previous %}
 						<a class="btn btn-success btn-xs" href="?page={{ results.previous_page_number }}">
 					{% else %}
